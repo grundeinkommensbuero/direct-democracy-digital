@@ -1,0 +1,13 @@
+{
+  "name": "direct-democracy-entry",
+  "version": "0.0.1",
+  "description": "This repo contains the main direct-democracy module.",
+  "main": "index.js",
+  "repository": "https://github.com/grundeinkommensbuero/direct-democracy-entry.git",
+  "author": "Valioesi <Vali_Schagerl@web.de>",
+  "license": "MIT",
+  "dependencies": {
+    "inquirer": "^7.3.3",
+    "shelljs": "^0.8.4"
+  }
+}
