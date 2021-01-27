@@ -21,7 +21,7 @@ const promptConfig = () => {
       name: "useExistingSpace",
       type: "confirm",
       message:
-        "Do you have an existing contentful space you want to use? – Warning: All content will be overwritten! (Hint: If you reached the space limit of your contentful plan – free plan: 1 – you won’t be able to create another one)",
+        "Do you have an existing contentful space you want to use? – Warning: All content will be overwritten! (Hint: If you reached the space limit of your contentful plan, 1 in a free plan, you won’t be able to create another one)",
       validate: (value) => {
         if (value.length > 0) {
           return true;
