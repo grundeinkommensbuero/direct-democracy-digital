@@ -15,18 +15,6 @@ const promptConfig = () => {
         return "Please enter your website url.";
       },
     },
-    {
-      name: "packageName",
-      type: "input",
-      message: "Enter name of your website package:",
-      validate: (value) => {
-        if (value.length > 0) {
-          return true;
-        }
-
-        return "Please enter your website package name.";
-      },
-    },
   ]);
 };
 
@@ -43,7 +31,7 @@ const createGatsbyConfig = ({ siteUrl }) => {
   };`;
 };
 
-const createPackageJSON = ({ packageName }) => {
+const createPackageJSON = (packageName) => {
   return `{
     "private": true,
     "name": "${packageName}",
@@ -59,10 +47,13 @@ const createPackageJSON = ({ packageName }) => {
 
 const run = async () => {
   try {
-    const { siteUrl, packageName } = await promptConfig();
+    // HINT: removed the packageName option
+    // -> introduces complexity because it has to be in sync with the folder name and will be the name of the work space
+    // all workspace commands would have to use this name
+    const { siteUrl } = await promptConfig();
 
     const gatsbyConfig = createGatsbyConfig({ siteUrl });
-    const packageJSON = createPackageJSON({ packageName });
+    const packageJSON = createPackageJSON("site");
 
     // Create site & src & gatsby shadowing folder
     shell.mkdir(
