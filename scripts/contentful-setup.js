@@ -5,8 +5,8 @@ const fetch = require("node-fetch");
 const fs = require("fs");
 const path = require("path");
 
-const secretsPath = `${__dirname}/../configs/secrets.json`;
-const envPath = `${process.cwd()}/site/.env`;
+const secretsPath = `${process.cwd()}/secrets.json`;
+const envPath = `${process.cwd()}/site/.env.production`;
 
 const promptConfig = () => {
   return inquirer.prompt([
@@ -103,9 +103,6 @@ const run = async () => {
     const config = shell.exec(`${runContentful} config list`, { silent: true })
       .stdout;
 
-    // Note: temporarily log the stdout
-    console.log("CHECK if output makes sense", config);
-
     const contentfulSpaceId = config
       .match(/activeSpaceId:\s\S+/gm)[0]
       .replace(/activeSpaceId:\s/, "");
@@ -125,7 +122,7 @@ const run = async () => {
             sys: {
               type: "Link",
               linkType: "Environment",
-              id: "staging",
+              id: "master",
             },
           },
         ],
@@ -213,5 +210,5 @@ const writeEnvVariables = (secrets) => {
     contentfulEnvironment,
   } = secrets;
   const envVariables = `CONTENTFUL_SPACE_ID='${contentfulSpaceId}'\nCONTENTFUL_ACCESS_TOKEN='${contentfulAccessToken}'\nCONTENTFUL_ENVIRONMENT='${contentfulEnvironment}'`;
-  fs.appendFileSync(envPath, envVariables);
+  fs.writeFileSync(envPath, envVariables);
 };

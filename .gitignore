@@ -1,4 +1,4 @@
 site
 test
 node_modules
-configs/secrets.json
+secrets.json
