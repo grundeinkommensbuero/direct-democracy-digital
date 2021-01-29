@@ -198,7 +198,7 @@ run();
 // to match the process of the other scripts when executing them in order
 // (also needs to consider re-runs, so appending might not be the best way)
 // Suggestion: one secrets.json-file that keeps track of the variables
-// and a utils.js file with exports for writing the env-Variables, for frontend, backend, admin-panal respectively
+// and a utils.js file with exports for writing the .env variables, for frontend, backend, admin-panel respectively
 const writeEnvVariables = (secrets) => {
   const {
     contentfulAccessToken,
