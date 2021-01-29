@@ -7,7 +7,9 @@
   "author": "Valioesi <Vali_Schagerl@web.de>",
   "license": "MIT",
   "dependencies": {
+    "contentful-cli": "^1.5.15",
     "inquirer": "^7.3.3",
+    "node-fetch": "^2.6.1",
     "shelljs": "^0.8.4"
   }
 }

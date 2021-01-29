@@ -1,0 +1,10 @@
+{
+  "spaceId": "af08tobnb0cl",
+  "environmentId": "direct-democracy",
+  "skipContent": false,
+  "skipRoles": true,
+  "skipWebhooks": true,
+  "download-assets": true,
+  "contentFile": "contentful-starter.json",
+  "errorLogFile": "contentful-cli-errors.json"
+}
