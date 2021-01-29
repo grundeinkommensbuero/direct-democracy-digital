@@ -22,15 +22,15 @@ const promptConfig = () => {
 
 const run = async () => {
   try {
-    const { hasMultipleContentfulAccounts } = await promptConfig();
-
-    // Install netlify-cli locally
-    shell.exec(`yarn workspace site add --dev netlify-cli`);
+    // const { hasMultipleContentfulAccounts } = await promptConfig();
 
     // Change the directory (netlify-cli needs this for the site link in .netlify)
-    shell.exec(`cd site`);
+    // shell.exec(`cd site`);
+
     // Define the netlify executable path
-    const runNetlify = `node ${process.cwd()}/node_modules/.bin/netlify`;
+    const runNetlify = `node ${__dirname}/../node_modules/.bin/netlify`;
+    // Copy the netlify.toml config file
+    shell.cp("-r", `${__dirname}/../configs/netlify.toml`, `${process.cwd()}`);
 
     // Login
     execSync(`${runNetlify} login --new`, {
