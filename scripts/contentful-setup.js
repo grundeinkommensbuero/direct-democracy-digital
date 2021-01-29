@@ -104,7 +104,7 @@ const run = async () => {
       .stdout;
 
     // Note: temporarily log the stdout
-    console.log(config);
+    console.log("CHECK if output makes sense", config);
 
     const contentfulSpaceId = config
       .match(/activeSpaceId:\s\S+/gm)[0]
