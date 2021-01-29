@@ -1,3 +1,4 @@
 site
 test
 node_modules
+secrets.json

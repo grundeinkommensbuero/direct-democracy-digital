@@ -1,5 +1,6 @@
 const shell = require("shelljs");
 const { execSync } = require("child_process");
+const path = require("path");
 
 const run = async () => {
   try {
@@ -7,7 +8,9 @@ const run = async () => {
     shell.cd("site");
 
     // Define the netlify executable path
-    const runNetlify = `${__dirname}/../node_modules/.bin/netlify`;
+    const runNetlify = path.resolve(
+      `${__dirname}/../node_modules/.bin/netlify`
+    );
 
     // NOTE: or future improvement, if we want to use a netlify.toml file
     // we need to be careful the path will always be correct here –
@@ -44,7 +47,7 @@ const run = async () => {
     shell.exec(`yarn build`);
 
     // Deploy
-    execSync(`${runNetlify} deploy --prod`, {
+    execSync(`${runNetlify} deploy --dir=public --prod`, {
       stdio: "inherit",
     });
   } catch (error) {
