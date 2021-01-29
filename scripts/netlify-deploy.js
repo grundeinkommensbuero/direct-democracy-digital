@@ -23,29 +23,34 @@ const promptConfig = () => {
 const run = async () => {
   try {
     // const { hasMultipleContentfulAccounts } = await promptConfig();
-
     // Change the directory (netlify-cli needs this for the site link in .netlify)
-    // shell.exec(`cd site`);
+    shell.cd("site");
 
     // Define the netlify executable path
-    const runNetlify = `node ${__dirname}/../node_modules/.bin/netlify`;
+    const runNetlify = `${__dirname}/../node_modules/.bin/netlify`;
     // Copy the netlify.toml config file
     shell.cp("-r", `${__dirname}/../configs/netlify.toml`, `${process.cwd()}`);
+    shell.sed(
+      "-i",
+      "BASE_DIR",
+      `${process.cwd()}`,
+      `${process.cwd()}/netlify.toml`
+    );
 
     // Login
     execSync(`${runNetlify} login --new`, {
       stdio: "inherit",
     });
 
-    // Import .env variables
-    shell.exec(`${runNetlify} env:import .env.production --replaceExisting`);
+    // // Import .env variables
+    // shell.exec(`${runNetlify} env:import .env.production --replaceExisting`);
 
     // Build
     // 1. Netlify
-    shell.exec(`${runNetlify} build`);
+    // shell.exec(`${runNetlify} build`);
     // OR
     // 2. Gatsby
-    // shell.exec(`yarn gatsby build`);
+    shell.exec(`yarn gatsby build`);
 
     // Deploy
     execSync(`${runNetlify} deploy --prod`, {
