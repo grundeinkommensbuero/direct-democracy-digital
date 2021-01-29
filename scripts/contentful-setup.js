@@ -3,6 +3,7 @@ const inquirer = require("inquirer");
 const { exec, execSync, fork, spawnSync } = require("child_process");
 const fetch = require("node-fetch");
 const fs = require("fs");
+const path = require("path");
 
 const secretsPath = `${__dirname}/../configs/secrets.json`;
 const envPath = `${process.cwd()}/site/.env`;
@@ -63,7 +64,9 @@ const run = async () => {
       organizationName,
     } = await promptConfig();
 
-    const runContentful = `node ${__dirname}/../node_modules/.bin/contentful`;
+    const runContentful = path.resolve(
+      `${__dirname}/../node_modules/.bin/contentful`
+    );
 
     // Safety logout
     if (hasMultipleContentfulAccounts) {
@@ -97,8 +100,12 @@ const run = async () => {
     );
 
     // Get the spaceId and the management token
-    const config = shell.exec("contentful config list", { silent: true })
+    const config = shell.exec(`${runContentful} config list`, { silent: true })
       .stdout;
+
+    // Note: temporarily log the stdout
+    console.log(config);
+
     const contentfulSpaceId = config
       .match(/activeSpaceId:\s\S+/gm)[0]
       .replace(/activeSpaceId:\s/, "");
