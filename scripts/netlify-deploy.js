@@ -28,14 +28,10 @@ const run = async () => {
 
     // Define the netlify executable path
     const runNetlify = `${__dirname}/../node_modules/.bin/netlify`;
+
     // Copy the netlify.toml config file
     shell.cp("-r", `${__dirname}/../configs/netlify.toml`, `${process.cwd()}`);
-    shell.sed(
-      "-i",
-      "BASE_DIR",
-      `${process.cwd()}`,
-      `${process.cwd()}/netlify.toml`
-    );
+    shell.sed("-i", "BASE_DIR", `/test/site`, `${process.cwd()}/netlify.toml`);
 
     // Login
     execSync(`${runNetlify} login --new`, {
