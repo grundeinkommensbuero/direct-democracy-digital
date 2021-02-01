@@ -34,17 +34,17 @@ const run = async () => {
     // // Import .env variables
     // shell.exec(`${runNetlify} env:import .env.production --replaceExisting`);
 
-    // Login
-    execSync(`${runNetlify} login --new`, {
-      stdio: "inherit",
-    });
-
     // Build
     // 1. Netlify
     // shell.exec(`${runNetlify} build`);
     // OR
     // 2. Gatsby
     shell.exec(`yarn build`);
+
+    // Login
+    execSync(`${runNetlify} login --new`, {
+      stdio: "inherit",
+    });
 
     // Deploy
     execSync(`${runNetlify} deploy --dir=public --prod`, {
