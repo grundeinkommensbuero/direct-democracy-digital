@@ -2,3 +2,5 @@ site
 test
 node_modules
 secrets.json
+# Local Netlify folder
+.netlify

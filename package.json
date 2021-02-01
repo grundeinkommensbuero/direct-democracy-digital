@@ -12,6 +12,7 @@
   "dependencies": {
     "contentful-cli": "^1.5.15",
     "inquirer": "^7.3.3",
+    "netlify-cli": "^3.4.6",
     "node-fetch": "^2.6.1",
     "shelljs": "^0.8.4"
   }

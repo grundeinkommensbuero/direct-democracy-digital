@@ -5912,7 +5912,7 @@
         "id": "6BgXlAhocgSwZGozhJEqmn",
         "type": "Entry",
         "createdAt": "2019-12-23T04:06:30.095Z",
-        "updatedAt": "2021-01-20T10:48:15.758Z",
+        "updatedAt": "2021-01-29T15:45:39.583Z",
         "environment": {
           "sys": {
             "id": "direct-democracy",
@@ -5920,8 +5920,8 @@
             "linkType": "Environment"
           }
         },
-        "publishedVersion": 202,
-        "publishedAt": "2021-01-20T10:48:15.758Z",
+        "publishedVersion": 205,
+        "publishedAt": "2021-01-29T15:45:39.583Z",
         "firstPublishedAt": "2019-12-23T04:06:47.740Z",
         "createdBy": {
           "sys": {
@@ -5937,8 +5937,8 @@
             "id": "6PfEcWEkjDiK7AvTE9ISLj"
           }
         },
-        "publishedCounter": 56,
-        "version": 203,
+        "publishedCounter": 57,
+        "version": 206,
         "publishedBy": {
           "sys": {
             "type": "Link",
@@ -5972,6 +5972,9 @@
         },
         "goalUnbuffered": {
           "en-US": 5000
+        },
+        "goalInbetween": {
+          "en-US": 1400
         },
         "goalInbetweenMultiple": {
           "en-US": [
