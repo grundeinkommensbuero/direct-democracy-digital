@@ -26,7 +26,7 @@ const run = async () => {
 
   // Install npm module
   shell.cd(`${process.cwd()}/backend`);
-  shell.exec("yarn add @xbge/cli");
+  shell.exec("yarn add backend-direct-democracy");
 };
 
 run();
