@@ -4,6 +4,12 @@ const path = require("path");
 
 const run = async () => {
   try {
+    // Copy campaign configuration into admin module
+    shell.cp(
+      "campaigns.json",
+      "admin/node_modules/admin-direct-democracy/src/campaigns.json"
+    );
+
     shell.cd("admin");
 
     // Define the netlify executable path
