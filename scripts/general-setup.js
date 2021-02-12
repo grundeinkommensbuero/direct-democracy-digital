@@ -12,10 +12,10 @@ const run = async () => {
     const { projectName } = await promptProjectName();
 
     await setupGatsbyTheme();
-    await createCampaignConfig(); // Prompt user for campaign config
+    const campaigns = await createCampaignConfig(); // Prompt user for campaign config
     await setupContentful();
     await setupAdmin();
-    await setupBackend(projectName);
+    await setupBackend(projectName, campaigns);
   } catch (error) {
     console.log("Ooops, something went wrong", error);
   }
@@ -42,6 +42,8 @@ const createCampaignConfig = async () => {
   console.log(
     "Successfully saved campaign configuration to file campaigns.json."
   );
+
+  return campaigns;
 };
 
 const promptProjectName = () => {
