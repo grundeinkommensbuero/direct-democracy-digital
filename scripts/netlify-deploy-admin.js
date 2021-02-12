@@ -2,12 +2,14 @@ const shell = require("shelljs");
 const { execSync } = require("child_process");
 const path = require("path");
 
-const run = async () => {
+module.exports = async () => {
   try {
+    console.log("Deploying admin panel, this might take a few minutes...");
+
     // Copy campaign configuration into admin module
     shell.cp(
       "campaigns.json",
-      "admin/node_modules/admin-direct-democracy/src/campaigns.json"
+      "admin/node_modules/admin-direct-democracy/dist/campaigns.json"
     );
 
     shell.cd("admin");
@@ -33,8 +35,9 @@ const run = async () => {
     execSync(`${runNetlify} deploy --dir=build --prod`, {
       stdio: "inherit",
     });
+
+    shell.cd("..");
   } catch (error) {
     console.log("Ooops, something went wrong", error);
   }
 };
-run();

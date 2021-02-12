@@ -4,7 +4,6 @@
   "description": "This repo contains the main direct-democracy module.",
   "main": "index.js",
   "bin": {
-    "admin-setup": "./scripts/admin-setup.js"
   },
   "repository": "https://github.com/grundeinkommensbuero/direct-democracy-entry.git",
   "author": "Valioesi <Vali_Schagerl@web.de>",
