@@ -31,7 +31,7 @@ module.exports = async (projectName) => {
 
     // Install npm module
     shell.cd(`${process.cwd()}/backend`);
-    shell.exec("yarn add backend-direct-democracy");
+    shell.exec("npm install backend-direct-democracy");
 
     shell.cd("..");
   } catch (error) {

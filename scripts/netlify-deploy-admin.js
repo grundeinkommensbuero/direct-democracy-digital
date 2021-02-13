@@ -24,7 +24,7 @@ module.exports = async () => {
     // shell.exec(`${runNetlify} build`);
     // OR
     // 2. Gatsby
-    shell.exec(`yarn build`);
+    shell.exec(`npm run build`);
 
     // Login
     execSync(`${runNetlify} login --new`, {

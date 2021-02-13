@@ -6,7 +6,7 @@ const setupContentful = require("./contentful-setup");
 const setupAdmin = require("./admin-setup");
 const setupBackend = require("./backend-setup");
 
-const run = async () => {
+module.exports = async () => {
   try {
     // We need a project name for the serverless module
     const { projectName } = await promptProjectName();
@@ -118,5 +118,3 @@ const promptConfig = () => {
     },
   ]);
 };
-
-run();

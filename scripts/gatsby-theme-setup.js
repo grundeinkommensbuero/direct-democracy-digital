@@ -79,7 +79,9 @@ module.exports = async () => {
 
     // Install npm modules
     shell.cd(`${process.cwd()}/site`);
-    shell.exec("yarn add react react-dom gatsby gatsby-theme-direct-democracy");
+    shell.exec(
+      "npm install react react-dom gatsby gatsby-theme-direct-democracy"
+    );
 
     shell.cd("..");
 

@@ -21,7 +21,7 @@ module.exports = async () => {
     }
 
     // We need to use exec sync because shell.exec does not work with input
-    execSync("yarn run deploy", { stdio: "inherit" });
+    execSync("npm run deploy", { stdio: "inherit" });
 
     // Move content of stack output to secrets.json by consolidating the stack output
     // and the existing secrets

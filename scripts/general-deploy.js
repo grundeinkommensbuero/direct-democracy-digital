@@ -7,7 +7,7 @@ const secretsPath = `${process.cwd()}/secrets.json`;
 const frontendEnvPath = `${process.cwd()}/site/.env.production`;
 const adminEnvPath = `${process.cwd()}/admin/.env.production`;
 
-const run = async () => {
+module.exports = async () => {
   try {
     await deployBackend();
 
@@ -59,5 +59,3 @@ const writeEnvVariables = (secrets) => {
   fs.writeFileSync(frontendEnvPath, frontendEnvVariables);
   fs.writeFileSync(adminEnvPath, adminEnvVariables);
 };
-
-run();

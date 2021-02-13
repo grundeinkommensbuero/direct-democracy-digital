@@ -11,7 +11,7 @@ module.exports = async () => {
 
     // Install npm modules
     shell.cd(`${process.cwd()}/admin`);
-    shell.exec("yarn install");
+    shell.exec("npm install");
 
     shell.cd("..");
   } catch (error) {
