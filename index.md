@@ -1,4 +1,4 @@
-# Direct Democracy Digital
+# Direct Democracy Digital :loudspeaker::pencil:
 
 ## Overview
 
