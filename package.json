@@ -1,10 +1,13 @@
 {
-  "name": "direct-democracy-entry",
-  "version": "0.0.1",
+  "name": "direct-democracy-digital",
+  "version": "0.0.4",
   "description": "This repo contains the main direct-democracy module.",
   "main": "index.js",
   "bin": {
-    "admin-setup": "./scripts/admin-setup.js"
+    "direct-democracy-digital": "./scripts/index.js"
+  },
+  "scripts": {
+    "publish-package": "npm publish --access public"
   },
   "repository": "https://github.com/grundeinkommensbuero/direct-democracy-entry.git",
   "author": "Valioesi <Vali_Schagerl@web.de>",

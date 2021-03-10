@@ -45,7 +45,7 @@ const createPackageJSON = (packageName) => {
   }`;
 };
 
-const run = async () => {
+module.exports = async () => {
   try {
     // HINT: removed the packageName option
     // -> introduces complexity because it has to be in sync with the folder name and will be the name of the work space
@@ -79,9 +79,14 @@ const run = async () => {
 
     // Install npm modules
     shell.cd(`${process.cwd()}/site`);
-    shell.exec("yarn add react react-dom gatsby gatsby-theme-direct-democracy");
+    shell.exec(
+      "npm install react react-dom gatsby gatsby-theme-direct-democracy"
+    );
+
+    shell.cd("..");
+
+    return siteUrl;
   } catch (error) {
     console.log("Ooops, something went wrong", error);
   }
 };
-run();

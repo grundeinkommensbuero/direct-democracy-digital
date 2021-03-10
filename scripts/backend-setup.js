@@ -1,6 +1,6 @@
 const shell = require("shelljs");
 
-const createPackageJSON = ({ packageName }) => {
+const createPackageJSON = (packageName) => {
   return `{
     "private": true,
     "name": "${packageName}",
@@ -12,21 +12,29 @@ const createPackageJSON = ({ packageName }) => {
   }`;
 };
 
-const run = async () => {
-  // Create directory for backend
-  shell.mkdir(`${process.cwd()}/backend`);
+module.exports = async (projectName) => {
+  try {
+    // Create directory for backend
+    shell.mkdir(`${process.cwd()}/backend`);
 
-  // TODO get package name
-  const packageJSON = createPackageJSON({ packageName: "blub" });
+    const packageJSON = createPackageJSON("backend");
 
-  // Write package.json to to file
-  new shell.ShellString(packageJSON).to(
-    `${process.cwd()}/backend/package.json`
-  );
+    // Write package.json to to file
+    new shell.ShellString(packageJSON).to(
+      `${process.cwd()}/backend/package.json`
+    );
 
-  // Install npm module
-  shell.cd(`${process.cwd()}/backend`);
-  shell.exec("yarn add @xbge/cli");
+    // Write project name to to file
+    new shell.ShellString(JSON.stringify({ projectName })).to(
+      `${process.cwd()}/backend/config.json`
+    );
+
+    // Install npm module
+    shell.cd(`${process.cwd()}/backend`);
+    shell.exec("npm install backend-direct-democracy");
+
+    shell.cd("..");
+  } catch (error) {
+    console.log("Ooops, something went wrong", error);
+  }
 };
-
-run();

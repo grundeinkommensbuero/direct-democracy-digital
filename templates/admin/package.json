@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@xbge/admin-panel": "^0.0.9",
+    "admin-direct-democracy": "^0.0.7",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "^4.0.1"

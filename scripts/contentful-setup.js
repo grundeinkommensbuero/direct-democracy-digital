@@ -6,7 +6,6 @@ const fs = require("fs");
 const path = require("path");
 
 const secretsPath = `${process.cwd()}/secrets.json`;
-const envPath = `${process.cwd()}/site/.env.production`;
 
 const promptConfig = () => {
   return inquirer.prompt([
@@ -55,7 +54,7 @@ const promptConfig = () => {
   ]);
 };
 
-const run = async () => {
+module.exports = async () => {
   try {
     // Prompt
     const {
@@ -92,6 +91,10 @@ const run = async () => {
     execSync(`${runContentful} space use`, {
       stdio: "inherit",
     });
+
+    // TODO: Replace the Replacement-string for the campaign-code
+    // in the contentful-starter.json
+    // contentful todo: setup the Replacement-string
 
     // Import the contentful starter json file
     execSync(
@@ -155,7 +158,6 @@ const run = async () => {
         contentfulEnvironment,
       };
       fs.writeFileSync(secretsPath, JSON.stringify(secrets));
-      writeEnvVariables(secrets);
       console.log(
         "Success: contentful space id and access token have been created"
       );
@@ -195,20 +197,4 @@ const run = async () => {
   } catch (error) {
     console.log("Ooops, something went wrong", error);
   }
-};
-run();
-
-// Note: The function to write the .env file probably has to be adjusted
-// to match the process of the other scripts when executing them in order
-// (also needs to consider re-runs, so appending might not be the best way)
-// Suggestion: one secrets.json-file that keeps track of the variables
-// and a utils.js file with exports for writing the .env variables, for frontend, backend, admin-panel respectively
-const writeEnvVariables = (secrets) => {
-  const {
-    contentfulAccessToken,
-    contentfulSpaceId,
-    contentfulEnvironment,
-  } = secrets;
-  const envVariables = `CONTENTFUL_SPACE_ID='${contentfulSpaceId}'\nCONTENTFUL_ACCESS_TOKEN='${contentfulAccessToken}'\nCONTENTFUL_ENVIRONMENT='${contentfulEnvironment}'`;
-  fs.writeFileSync(envPath, envVariables);
 };

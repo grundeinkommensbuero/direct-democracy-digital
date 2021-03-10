@@ -2,8 +2,10 @@ const shell = require("shelljs");
 const { execSync } = require("child_process");
 const path = require("path");
 
-const run = async () => {
+module.exports = async () => {
   try {
+    console.log("Deploying website, this might take a few minutes...");
+
     // Change the directory (netlify-cli needs this for the site link in .netlify)
     shell.cd("site");
 
@@ -39,7 +41,7 @@ const run = async () => {
     // shell.exec(`${runNetlify} build`);
     // OR
     // 2. Gatsby
-    shell.exec(`yarn build`);
+    shell.exec(`npm run build`);
 
     // Login
     execSync(`${runNetlify} login --new`, {
@@ -50,8 +52,9 @@ const run = async () => {
     execSync(`${runNetlify} deploy --dir=public --prod`, {
       stdio: "inherit",
     });
+
+    shell.cd("..");
   } catch (error) {
     console.log("Ooops, something went wrong", error);
   }
 };
-run();
