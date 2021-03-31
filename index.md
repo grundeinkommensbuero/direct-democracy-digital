@@ -1,4 +1,4 @@
-# Direct Democracy Digital :loudspeaker::pencil:
+# Direct Democracy Digital :loudspeaker::pencil: 
 
 ## Overview
 
@@ -63,167 +63,77 @@ We use Contentful as a preconfigured content management system (CMS). If you alr
 
 ## Deploy CLI
 
+### Installation
+`npm install -g direct-democracy-digital`
+
+### Setup
+`direct-democracy-digital setup`
+
+Just follow the instructions of the cli. Some of the steps (such as installing dependencies) might take a few minutes. You will be asked to login into your Contentful account during one of steps. 
+
+After the setup you can configure the application even further before deploying. For instance you can edit the content (see Contentful), customize the design (see Gatsby Theme) and change the content of the emails (see Emails). After deploying for the first time you can always change stuff later and deploy again. So if you are curious to see what the dummy site looks like, you can go ahead and deploy first. The dummy site will also contain instructions on where to change the content it displays. The dummy site is the same as our [live demo](https://direkte-demokratie.netlify.app/) (also see Annotated Example).
+
+### Deployment
+`direct-democracy-digital deploy`
+
+Follow the instructions to deploy the application to your Netlify account. You will be prompted for your AWS credentials (see Get credentials) and logged into your Netlify account.
+
+First the backend infrastructure will be deployed to AWS. Afterwards the frontend application and admin panel will be deployed to Netlify. They will already be automatically connected to the backend.
+
+You will also be asked for the sender email address for the transactional mail. Simply type in the email you configured with SES. 
+
+The whole deployment process might take a few minutes. 
+
 ## AWS
+
+Out of the box there will be no need to customize anything in the context of our AWS dependencies (DynamoDB, Cognito etc), but in case you want to look at or edit the saved data, you can simply sign  into the [AWS console](https://aws.amazon.com/de/console/) and go to one of the services. 
 
 ## Contentful
 
-### Export/import
+We use Contentful as a CMS for the website. You can [change the content](https://www.contentful.com/help/entry-editor/) of individual pages, [add new ones](https://www.contentful.com/help/contentful-101/#step-6-add-content) and change the navigation and footer menu on the site.
 
-#### Export (Dev process)
+> Note: Contentful is structured by two main concepts: _Content model_ and _Content_. The content models are scaffolds or blue prints for  content you can add and determine your edit options and the names of different fields. Since we already set up the content models for the site you only need to interact with the _Content_ section of the Contentful webapp where you will find the _Content Types_ and field names we will refer to in the next sections. 
 
-* [Contentful documentation export/import](https://www.contentful.com/developers/docs/tutorials/cli/import-and-export/)
-* [Contentful documentation space management](https://www.contentful.com/developers/docs/tutorials/cli/space-management/)
+> Advanced users can of course adjust the content model, but have to adjust the code of the Gatsby Theme, too.
 
-To export the contentful data we have to log in as XBGE.
+### Main structure
 
-``` bash
-contentful login
-```
+The main entry point to customize the site is the Content Type **Global Stuff**. This is the only content type where it won’t make sense to create an additional entry with that type. You should just edit the existing one. 
 
-```bash
-contentful space export --config contentful-export-config.json
-```
+Global stuff also allows you to navigate to all parts of the website. The fields in global stuff allow you to set the main meta tags for the site, the top menu and the footer items. 
 
-The settings in the `contentful-export-config.json` are:
+Individual Pages on the site can be created with the content type **Static Content**. For the _Main Menu_ you can either reference Static Content pages directly, or you can use the content type **Menu Oberpunkt** to create a list of pages that you can reference in the field _Unterpunkte_ (Unterpunkte can have an external or internal link, if they are not set, nothing happens, if you click on the menu parent)
 
-```json
-{
-    "spaceId": "af08tobnb0cl",
-    "environmentId": "",
-    "skipContent": true,
-    "skipRoles": true,
-    "skipWebhooks": true,
-    "download-assets": false,
-    "contentFile": "contentful-direct-democracy.json",
-    "errorLogFile": "contentful-cli-errors.json"
-}
-```
+In our setup Static Content pages consist of **Page Sections**. There are several Page Section Content type which share the main behavior of setting a new full-width container on the page with a new background color. 
 
-- Our spaceId
-- The environmentId is empty -> defaults to master. Only change if needed
-- The file in which the data should be stored: `contentful-direct-democracy.json`
-- Skips the following data:
-  - Content */ remove when the white-label-version exists*
-  - Roles
-  - Webhooks
-  - Assets
+The most versatile content type is the **Page Section** without any suffixes. It gives you the option to set two text blocks (one in the beginning: _Text am Anfang_, one at the end: _Text am Ende_). In between you can have elements like a call to action button and you can set up the _Team Member_ and the bar charts visualizing your initiative’s progress with _Visualisierungen_. 
+
+> Note: After the last text block you can also add maps of an area where you to show specific spots (our intented use case were places where signatures are collected). With the _Config_ field you can set wich area will be shown in the map. Since this is still tightly coupled to our use case, you have to adapt it a bit for your use case: You can select a _State_ on the map, which you’ll also have to select on the **Sammelort** content type which is a single point on the map. The _State_ fields are just for selecting points for the map and have no other functionality and are not displayed on the site, so you can use the five states available and map them to your use cases.
+
+#### Annotated example
+
+To see the contentful edits in action you can check out our [live demo](https://direkte-demokratie.netlify.app/). All the content featured in the demo will also be available in your initial setup, so you can compare the entries with the result. There’s also more hints included in the description there, unfortunately these are only available in German at the time of writing this documentation. 
 
 
+## Gatsby Theme
 
+We use Gatsby as a React framework for the platform’s website. Gatsby provides the option to create reusable scaffolds that can be used in multiple projects via Gatsby Themes. Running our general setup script `direct-democracy-digital setup` will create a Gatsby project in the `site` folder with our Gatsby Theme pre-installed.
 
-After we have to sign out again
-```bash
-contentful logout
-```
+### Customization
 
-##### Dev process questions: 
+To provide you with extended options to customize our theme according to your needs, we use [Gatsby’s Shadowing concept](https://www.gatsbyjs.com/docs/how-to/plugins-and-themes/shadowing). **Shadowing** allows you to [extend](https://www.gatsbyjs.com/docs/how-to/plugins-and-themes/shadowing/#extending-shadowed-files) and [replace](https://www.gatsbyjs.com/docs/how-to/plugins-and-themes/shadowing/#shadowing-other-files) any file located in the **`/src` folder** in [our Gatsby Theme repo](https://github.com/grundeinkommensbuero/gatsby-theme/tree/master/gatsby-theme-direct-democracy/sr) with your own implementation. 
 
-> * For the contentful export do we need a white-label version of the contents as well? –> Would make sense so the graphQL queries work in the frontend (or we need another solution for that)
-> * How do we want to do the integration in the larger CLI? -> Ask to create personal access token and look up space id in the web app.
-> * Do we need a separate development environment for the users, too? -> Just describe the option in the documentation
-> * Can we use the contentful cli to create an api token and webhooks for netlify? -> For access token: not the very first one, for the webhook: yes!
-> * Language for starter content
-> * Tone / descriptiveness of starter content
-> * Which features will be supported
+To customize the CSS we provide a set of `_config.less` files. Any variables you provide with new values in these files will be overwritten, otherwise the default value will be used.
 
+#### Basic css and fonts
 
-#### Import (User process)
+In the same fashion you can change the [basic CSS setup](https://github.com/grundeinkommensbuero/gatsby-theme/blob/master/gatsby-theme-direct-democracy/src/style/base_default.less) in the `site/src/gatsby-theme-direct-democracy/base_config.less` file. If you want to use your own custom font, you can do a @font-face import in `site/src/gatsby-theme-direct-democracy/webfont_config.less`. 
 
-[Install the contentful cli](https://www.contentful.com/developers/docs/tutorials/cli/installation/)
+#### Styles and colors
 
-To import the contentful data you need to login. 
+To change the color scheme and some style variables you can add the variables in  `site/src/gatsby-theme-direct-democracy/vars_config.less`. You can see [all available variables and default values here](https://github.com/grundeinkommensbuero/gatsby-theme/blob/master/gatsby-theme-direct-democracy/src/style/vars_default.less). 
 
-``` bash
-contentful login
-```
-You need to create a new space, ideally with the name of your organization.
-
-```bash
-contentful space create --name <your-organization>
-```
-
-The next command ensures all following commands use the space you just created: When prompted just select the space that you just created.
-
-```bash
-contentful space use 
-```
-
-> Note: We probably want the user to do few steps in the web app anyway so we could also ask for the <SPACE_ID> in a prompt and save it in the Configstore. Then we don’t need this extra step
-
-This imports the data of the direct-democracy starter
-
-```bash
-contentful space import --content-file contentful-direct-democracy.json --config contentful-import-config.json
-```
-
-The settings in the `contentful-import-config.json` are:
-
-```json
-{
-    "contentModelOnly": true,
-    "skipLocales": true
-}
-```
-
-- environmentId is not used -> defaults to master. Only change if needed
-- Only imports the content model */ remove when we have a white-label-version*
-- Does not import the locale settings
-
-
-
-### Configuration
-
-#### API tokens
-
-* [Contentful documentation personal access tokens](https://www.contentful.com/help/personal-access-tokens/#how-to-get-a-personal-access-token-api-endpoints)
-
-> It’s possible to create a personal access token via the API but some Authorization token is needed for this already -> we probably want to ask the user to create a personal access token in the web app and prompt in the CLI for the <SPACE-ID> and the <API-KEY>. 
-
-> ```bash
-> # Just in case we you want to creat a personal access token via the API:
-> curl -X POST https://api.contentful.com/users/me/access_tokens \
->    -d '{"name": "<NAME>", "scopes": ["content_management_manage"]}' \
->    -H 'Authorization: Bearer <API_KEY>' \
->    -H 'Content-Type: application/vnd.contentful.management.v1+json'
-> ```
-
-
-#### Webhooks
-
-* [Contentful documentation webhooks](https://www.contentful.com/developers/docs/concepts/webhooks/)
-
-To create a webhook for netlify you can send a POST request to the conentful spaces API
-
-```bash
-curl -X POST "https://api.contentful.com/spaces/<SPACE_ID>/webhook_definitions" \
-  -d '{"url": "https://api.netlify.com/build_hooks/<HOOK_ID>", "name": "Netlify - Deploy a site", "topics": ["Entry.publish", "Asset.publish", "Entry.unpublish", "Asset.unpublish"], "filters": [{"equals":[{"doc":"sys.environment.sys.id"},"master"]}]}' \
-  -H 'Authorization: Bearer <API_KEY>' \
-  -H 'Content-Type: application/vnd.contentful.management.v1+json'
-```
-
-> For the CLI: Check what’s the best way to access the <HOOK_ID> from Netlify 
-
-
-
-## Netlify
-
-## Emails
-
-## Admin panel
-
-## Gatsby-Theme
-
-### gatsby-theme documentation notes
-
-> * Explain shadowing and mention that you have to rebuild the dev bundle, if you added a new file that you want to be shadowed
-> * Link to https://www.gatsbyjs.com/docs/how-to/plugins-and-themes/shadowing/ and briefly explain how to import and extend shadowed files
-> * Show hot to change paddings and margins
-> * Describe how the css-color-variables work in relation to the section colors, modals and buttons and show which files would have to be modified to change that
-> * Explain shadowing for the Logo and how different file formats and file names are accepted, it will just take the first image (.png, .jpg, .svg) in src/gatsby-theme-xbge/assets/logo
-
-#### Shadowing example:
-
-The variables in `gatsby-theme-xbge/src/style/vars_default.less` can be overwritten in `your-site/src/gatsby-theme-xbge/style/vars_config.less`. (Technically this is split up in two files, so you pick the variables you want to overwrite and use the default values for the rest)
+> Regarding the color variables it’s important to note that the naming is based on our system of alternating colors for subsequent sections. In this alternative example the first section on a page will have a yellow background, the second will be red and the third will be grey and then the pattern repeats. The font color of text in the second section can be configured separately for the other sections another section color will be used. It’s best to test your color scheme on the development site to understand how this system works. 
 
 ``` less
 @sectionColor1: #fef377;        // @yellow
@@ -236,9 +146,34 @@ The variables in `gatsby-theme-xbge/src/style/vars_default.less` can be overwrit
 @accentColor4: #7d69f6;         // @pink
 @menuBackgroundColor: white;    // @white
 @strokeOnIcons: #1D1D1B;        // @black
-````
+```
 
+#### Custom Logo
 
+To provide your own logo is even easier: You can add your own logo by storing it in `site/src/gatsby-theme-direct-democracy/assets/logo`. The logo can be stored as PNG, JPEG or SVG.
 
+## Netlify
 
+As already mentioned we use Netlify to host the frontend application and admin panel. Unfortunately our deployment scripts do not let you create a new domain or automatically link the application to your existing domain. 
 
+You can add or create a custom domain in the domain settings of your newly created site in your netlify account. You can either create a new domain. In this case Netlify automatically configures DNS settings and a certificate for you. Or you can link the site to an already existing domain. In that case you can follow the instructions of the [netlify docs](https://docs.netlify.com/domains-https/custom-domains/?_ga=2.125223562.1608661998.1617182051-227056302.1572609270). 
+
+## Emails
+
+For our automatic mails we use [mjml](https://mjml.io/) to define what the mail should look like. The mjml templates will be automatically rendered to html while our deploy scripts run. 
+
+If you want to change the color scheme of the emails you can adjust the colors inside /mails/includes/head.mjml. 
+
+The content can also be changed by simply editing the mjml files inside /mails. In some mails you definitely need to edit some text (e.g. your address in signatureListMail). 
+
+## Signature List
+
+To use your signature list instead of the dummy signature list, you simply need to replace the atuomatically created pdf (or pdfs, if you defined multiple campaigns) inside the backend/lists folder. The naming has to stay the same. For the barcode to be placed at the correct spot of the pdf you need to create a list which leaves an empty area at the predefined spot. You can just use [this jpeg template](https://images.ctfassets.net/af08tobnb0cl/6j1TFBBXnLRdbpacGoAX0j/f4f3fff5759b17ca37b5cb7e104baa77/Vorlage-barcode.jpg) as a background for your signature list. This way you make sure that barcode will be placed correctly later on. 
+
+Depending on where your campaign is active the requirements for the list might be different, but just take a look at our [dummy pdf](https://assets.ctfassets.net/af08tobnb0cl/3uyOjTujYuJLcGhjPUqT5R/f0a3e70cec240c0fcb66e7e8b6ec561b/Unterschriften-dummy.pdf) to see what it might look like. 
+
+## Admin panel
+
+The admin panel gives an overview over several statistics (e.g. how many signatures were already collected). It also offers the possibility to enter newly arrived signatures or look up data of a specific user. 
+
+The admin panel is basically ready out of the box since there is not really a need to customize the styling. The only thing that is really necessary is creating admin users, so you can sign into the admin panel. You simply have to go to AWS console, open the Cognito service, choose the admin pool and create a new user under "Users and groups". You only have to fill in the field "Email" and "Username" with the email you want to add. You don't have to set a password or send an invitation. The newly created user can now simply sign in via the same login code mechanism the frontend application uses. 
